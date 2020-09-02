@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="60px" height="60px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+    <title>icon_seed copy 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon_seed-copy-2">
+            <g id="Page-1">
+                <path d="M30,0 C13.431,0 0,13.431 0,30 C0,46.569 13.431,60 30,60 C46.569,60 60,46.569 60,30 C60,13.431 46.569,0 30,0" id="Fill-1" fill="#293A43"></path>
+                <path d="M30,57 C37.364,57 44.036,54.048 48.908,49.268 L11.092,49.268 C15.964,54.048 22.636,57 30,57" id="Fill-3" fill="#FFFFFF"></path>
+                <path d="M34.9206,33.491 C35.3766,31.838 35.5726,30.276 35.4736,28.685 C35.3016,25.93 34.4116,23.432 32.7656,21.211 C32.4946,20.845 32.6226,20.879 32.1926,21.055 C29.6286,22.103 27.5636,23.778 25.9946,26.056 C24.7126,27.917 23.9336,29.98 23.6266,32.217 C23.4806,33.281 23.5166,34.34 23.8076,35.385 C24.4396,37.659 26.6126,39.362 29.0166,39.253 C30.8586,39.169 32.2736,38.318 33.3506,36.859 C34.1266,35.809 34.5986,34.618 34.9206,33.491" id="Fill-5" fill="#FFFFFF"></path>
+            </g>
+        </g>
+    </g>
+</svg>
