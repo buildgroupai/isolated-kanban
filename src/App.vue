@@ -1,5 +1,5 @@
 <template>
-  <div id="app" v-if="hasSwimlanesAndCards">
+  <div id="app">
     <DealFlowKanban
       :cards="this.normalizedCards"
       :swimlanes="this.getShowInKanbanSwimlanes"
@@ -11,8 +11,12 @@
       @drop="this.drop"
       @drop-opportunity="this.dropOpportunity"
       @reject-opportunity="this.rejectOpportunity"
-      style="width: 100vw; padding: 0px 16px;"
+      class="dealflowKanban"
+      v-if="hasSwimlanesAndCards"
     />
+    <div class="spinnerContainer" v-else>
+      <div class="spinner"></div>
+    </div>
   </div>
 </template>
 
@@ -3393,12 +3397,12 @@ export default {
       const kanban = await request("dealflow/kanban");
       return kanban.data.results;
     },
-    async getCards() {
+    async getCards(limit = 2500) {
       const cards = await request("dealflow/kanban-card", {
         params: {
           status: "ALIVE",
           is_deleted: false,
-          limit: 10
+          limit
         }
       });
       return cards.data.results;
@@ -3444,5 +3448,39 @@ export default {
   background-color: #cccccc;
   display: flex;
   flex: 1;
+}
+
+.dealflowKanban {
+  width: 100vw;
+  padding: 0px 16px;
+}
+
+.spinnerContainer {
+  width: 100%;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner {
+  height: 20vh;
+  width: 20vh;
+  border: 12px solid rgba(0, 174, 239, 0.2);
+  border-top-color: rgba(0, 174, 239, 0.8);
+  border-radius: 100%;
+  animation: rotation 0.6s infinite linear 0.25s;
+  opacity: 0;
+}
+
+@keyframes rotation {
+  from {
+    opacity: 1;
+    transform: rotate(0deg);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(359deg);
+  }
 }
 </style>

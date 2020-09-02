@@ -148,8 +148,6 @@ export default {
           return;
         }
 
-        console.log("Called");
-
         const cardsDifference = differenceBy(
           this.normalizedCards,
           this.kanbanCards,
@@ -162,7 +160,7 @@ export default {
         );
         const kanbanDifference = differenceBy(
           this.kanbanCards,
-          this.nor$alizedCards,
+          this.normalizedCards,
           "id"
         );
 
@@ -179,8 +177,6 @@ export default {
           })
         );
         kanbanDifference.forEach(card => this.kanban.remove(card.id));
-
-        console.log('Kanban', { kanban: this.kanban })
 
         this.kanban.sort({ by: "title", dir: "asc", as: "string" });
         this.kanban.unblockEvent();
@@ -403,10 +399,6 @@ export default {
 
       this.kanban.updateItem(card.id, { ...card, $css: "none" });
       this.kanban.refresh(card.id);
-
-      console.log('onDrop', {
-        fromSwimlane, toSwimlane, order: card.order, position
-      })
 
       if (fromSwimlane === toSwimlane && card.order !== position) {
         try {
