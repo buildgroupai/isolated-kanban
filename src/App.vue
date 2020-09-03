@@ -42,6 +42,7 @@ export default {
   async created() {
     const kanban = await this.getKanban();
     this.kanban = kanban;
+    this.fetching = false;
   },
   data() {
     return {
@@ -49,7 +50,7 @@ export default {
       swimlanes: [],
       kanban: {},
       limit: null,
-      fetching: false,
+      fetching: true,
       options: [
         {
           value: null,
