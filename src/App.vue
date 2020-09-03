@@ -1,47 +1,85 @@
 <template>
   <div id="app">
+    <b-form-select
+      v-model="limit"
+      :options="options"
+      class="select"
+    ></b-form-select>
     <DealFlowKanban
-      :cards="this.normalizedCards"
-      :swimlanes="this.getShowInKanbanSwimlanes"
-      :user="this.user"
-      :users="this.organizationUsers"
-      :qualificationChecklists="this.qualificationChecklists"
-      :backlog="this.backlog"
-      @move="this.move"
-      @drop="this.drop"
-      @drop-opportunity="this.dropOpportunity"
-      @reject-opportunity="this.rejectOpportunity"
+      :cards="normalizedCards"
+      :swimlanes="getShowInKanbanSwimlanes"
+      :user="user"
+      :users="organizationUsers"
+      :qualificationChecklists="qualificationChecklists"
+      :backlog="backlog"
+      @move="move"
+      @drop="drop"
+      @drop-opportunity="dropOpportunity"
+      @reject-opportunity="rejectOpportunity"
       class="dealflowKanban"
-      v-if="hasSwimlanesAndCards"
+      v-if="!fetching && hasSwimlanes"
     />
-    <div class="spinnerContainer" v-else>
+    <div class="spinnerContainer" v-if="fetching">
       <div class="spinner"></div>
     </div>
   </div>
 </template>
 
 <script>
-import DealFlowKanban from "./components/DealFlowKanban.vue";
+import { debounce } from "lodash";
+import { BFormSelect } from "bootstrap-vue";
+
 import request from "@/core/api/request";
+
+import DealFlowKanban from "./components/DealFlowKanban.vue";
 
 export default {
   name: "App",
   components: {
-    DealFlowKanban
+    DealFlowKanban,
+    BFormSelect
   },
   async created() {
-    const [kanban, cards] = await Promise.all([
-      this.getKanban(),
-      this.getCards()
-    ]);
+    const kanban = await this.getKanban();
     this.kanban = kanban;
-    this.cards = cards;
   },
   data() {
     return {
       cards: [],
       swimlanes: [],
       kanban: {},
+      limit: null,
+      fetching: false,
+      options: [
+        {
+          value: null,
+          text: "Select the amount of cards to display"
+        },
+        {
+          value: 100,
+          text: "100"
+        },
+        {
+          value: 500,
+          text: "500"
+        },
+        {
+          value: 1000,
+          text: "1000"
+        },
+        {
+          value: 1500,
+          text: "1500"
+        },
+        {
+          value: 2000,
+          text: "2000"
+        },
+        {
+          value: 2500,
+          text: "2500"
+        }
+      ],
       user: {
         id: "bbb4d16d-ac64-4f32-9ef1-39c7253523ed",
         client: "5834dae3-0ec1-4dba-b2f3-3868a5478d0a",
@@ -3379,30 +3417,32 @@ export default {
         return card.current_swimlane.show_in_kanban;
       });
     },
-    hasSwimlanesAndCards() {
-      return this.getAllSwimlanes.length && this.cards.length;
+    hasSwimlanes() {
+      return this.getAllSwimlanes.length;
     }
+  },
+  watch: {
+    limit: debounce(function() {
+      this.refresh();
+    }, 500)
   },
   methods: {
     async refresh() {
-      const [kanban, cards] = await Promise.all([
-        this.getKanban(),
-        this.getCards()
-      ]);
-
-      this.kanban = kanban;
+      this.fetching = true;
+      const cards = await this.getCards();
       this.cards = cards;
+      this.fetching = false;
     },
     async getKanban() {
       const kanban = await request("dealflow/kanban");
       return kanban.data.results;
     },
-    async getCards(limit = 2500) {
+    async getCards() {
       const cards = await request("dealflow/kanban-card", {
         params: {
           status: "ALIVE",
           is_deleted: false,
-          limit
+          limit: this.limit
         }
       });
       return cards.data.results;
@@ -3448,6 +3488,8 @@ export default {
   background-color: #cccccc;
   display: flex;
   flex: 1;
+  flex-direction: column;
+  align-items: center;
 }
 
 .dealflowKanban {
@@ -3471,6 +3513,11 @@ export default {
   border-radius: 100%;
   animation: rotation 0.6s infinite linear 0.25s;
   opacity: 0;
+}
+
+.select {
+  margin-bottom: 20px;
+  max-width: 500px;
 }
 
 @keyframes rotation {
