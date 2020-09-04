@@ -1,0 +1,27 @@
+@import '../abstracts/variables';
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700,900|Poppins:400,600,700&display=swap');
+
+html,
+body,
+p,
+strong,
+i {
+  font-family: Lato, sans-serif !important;
+  font-size: 16px !important;
+  color: $dark !important;
+}
+
+h1, h2, h3, h5, h6 {
+  font-family: Poppins, sans-serif !important;
+}
+
+strong {
+  font-weight: bold;
+}
+
+.truncate-30 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 30ch;
+}

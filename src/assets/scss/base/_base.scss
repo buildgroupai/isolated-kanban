@@ -1,0 +1,65 @@
+@import '../abstracts/variables';
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 4px;
+  background: $light;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: $secondary;
+}
+
+.dark {
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #fff;
+  }
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+html, body {
+  margin: 0;
+  overflow: hidden;
+}
+
+table {
+  thead {
+    background: $secondary;
+    color: #000;
+
+    tr {
+      th {
+        text-align: left;
+        vertical-align: middle !important;
+        filter: invert(1);
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      td {
+        vertical-align: middle !important;
+      }
+    }
+  }
+}
+
+.disabled,
+[disabled]
+{
+  opacity: 0.5;
+  pointer-events: none;
+}
