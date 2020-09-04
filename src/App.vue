@@ -17,7 +17,7 @@
       @drop-opportunity="dropOpportunity"
       @reject-opportunity="rejectOpportunity"
       class="dealflowKanban"
-      v-if="!fetching && hasSwimlanes"
+      v-if="!fetching && hasSwimlanes && hasCards"
     />
     <div class="spinnerContainer" v-if="fetching">
       <div class="spinner"></div>
@@ -40,8 +40,12 @@ export default {
     BFormSelect
   },
   async created() {
-    const kanban = await this.getKanban();
+    const [kanban, cards] = await Promise.all([
+      this.getKanban(),
+      this.getCards()
+    ]);
     this.kanban = kanban;
+    this.cards = cards;
     this.fetching = false;
   },
   data() {
@@ -49,7 +53,7 @@ export default {
       cards: [],
       swimlanes: [],
       kanban: {},
-      limit: null,
+      limit: 2500,
       fetching: true,
       options: [
         {
@@ -58,27 +62,27 @@ export default {
         },
         {
           value: 100,
-          text: "100"
+          text: "Cards amount: 100"
         },
         {
           value: 500,
-          text: "500"
+          text: "Cards amount: 500"
         },
         {
           value: 1000,
-          text: "1000"
+          text: "Cards amount: 1000"
         },
         {
           value: 1500,
-          text: "1500"
+          text: "Cards amount: 1500"
         },
         {
           value: 2000,
-          text: "2000"
+          text: "Cards amount: 2000"
         },
         {
           value: 2500,
-          text: "2500"
+          text: "Cards amount: 2500"
         }
       ],
       user: {
@@ -3418,12 +3422,16 @@ export default {
         return card.current_swimlane.show_in_kanban;
       });
     },
+    hasCards() {
+      return this.normalizedCards.length;
+    },
     hasSwimlanes() {
       return this.getAllSwimlanes.length;
     }
   },
   watch: {
     limit: debounce(function() {
+      if (!this.limit) return;
       this.refresh();
     }, 500)
   },
