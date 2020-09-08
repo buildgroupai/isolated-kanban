@@ -4,8 +4,11 @@
 
 Fork this repository to your GitHub account.
 
-Clone this repository to your local environment and run the following:
+Clone this repository to your local environment.
 
+Log into webix npm registry.
+
+Run the following:
 ```
 npm install
 ```
