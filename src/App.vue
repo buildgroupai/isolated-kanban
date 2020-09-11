@@ -38,6 +38,20 @@ import ORGANIZATION_USERS from "./data/organizationUsers";
 import QUALIFICATION_CHECKLISTS from "./data/qualificationChecklists";
 import BACKLOG from "./data/backlog";
 
+const dealFlowCardFields = [
+  "collaborators",
+  "company",
+  "current_mbm_score",
+  "current_swimlane",
+  "owner",
+  "qualification_checklist",
+  "qualification_checklist_score",
+  "statistics",
+  "status",
+  "is_deleted",
+  "id"
+];
+
 export default {
   name: "App",
   components: {
@@ -149,7 +163,8 @@ export default {
         params: {
           status: "ALIVE",
           is_deleted: false,
-          limit: this.limit
+          limit: this.limit,
+          fields: dealFlowCardFields.join(",")
         }
       });
       return cards.data.results;
